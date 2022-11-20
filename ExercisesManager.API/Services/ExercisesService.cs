@@ -17,47 +17,43 @@ namespace ExercisesManager.API.Services
             this._context = context;
         }
 
-        public async Task<ExerciseDTO> AddExerciseAsync(ExerciseInputModel exerciseInputModel,ApplicationUser user)
+        public async Task<ExerciseDTO> AddExerciseAsync(ExerciseInputModel exerciseInputModel,ApplicationUser user, CancellationToken token)
         {
             var exerciseToAdd = exerciseInputModel.ToEntity();
-            var exerciseToReturn = await _context.Exercises.AddAsync(exerciseToAdd);
+            var exerciseToReturn = await _context.Exercises.AddAsync(exerciseToAdd,token);
 
             user.UserExercises.Add(new UserExercises 
             {
                 ApplicationUser = user,
-                Exercise = exerciseToReturn.Entity,
-                ApplicationUserId = user.Id,
-                ExerciseId = exerciseToReturn.Entity.ID
-
+                Exercise = exerciseToReturn.Entity
             });
-            _context.Update(user);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
             return exerciseToReturn.Entity.ToDTO();
         }
 
-        public async Task DeleteExerciseAsync(Exercise exercise)
+        public async Task DeleteExerciseAsync(Exercise exercise,CancellationToken token)
         {
             _context.Exercises.Remove(exercise);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
         }
 
-        public async Task<ExerciseDTO> GetExerciseByIDAsync(long id)
+        public async Task<ExerciseDTO> GetExerciseByIDAsync(long id,CancellationToken token)
         {
             var exercise = await _context.Exercises.FindAsync(id);
             return exercise?.ToDTO();
         }
 
-        public async Task<Exercise> FindExerciseAsync(long id)
+        public async Task<Exercise> FindExerciseAsync(long id,CancellationToken token)
         {
-            return await _context.Exercises.FindAsync(id);
+            return await _context.Exercises.FindAsync(new object[]{id}, token);
         }
 
-        public async Task<IEnumerable<ExerciseDTO>> GetExercisesAsync(string username)
+        public async Task<IEnumerable<ExerciseDTO>> GetExercisesAsync(string username,CancellationToken token)
         {
             
             if(String.IsNullOrWhiteSpace(username))
             {
-                return await _context.Exercises.Select(x => x.ToDTO()).ToListAsync();
+                return await _context.Exercises.Select(x => x.ToDTO()).ToListAsync(token);
             }
 
             var exercices = _context.Exercises.
@@ -68,17 +64,17 @@ namespace ExercisesManager.API.Services
             return await exercices.Where(x => x.UserExercises.
                     Any(x => x.ApplicationUser.UserName.Equals(username))).
                     Select(x => x.ToDTO()).
-                    ToListAsync();
+                    ToListAsync(token);
  
         }
 
-        public async Task<ExerciseDTO> UpdateExerciseAsync(Exercise exercise, ExerciseInputModel exerciseInputModel)
+        public async Task<ExerciseDTO> UpdateExerciseAsync(Exercise exercise, ExerciseInputModel exerciseInputModel,CancellationToken token)
         {
             exercise.Name = exerciseInputModel.Name;
             exercise.Description = exerciseInputModel.Description;
             exercise.Duration = exerciseInputModel.Duration;
             _context.Update(exercise);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(token);
             return exercise.ToDTO();
         }
     }

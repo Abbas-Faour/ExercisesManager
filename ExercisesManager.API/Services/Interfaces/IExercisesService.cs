@@ -7,11 +7,11 @@ namespace ExercisesManager.API.Services.Interfaces
 {
     public interface IExercisesService
     {
-        Task<IEnumerable<ExerciseDTO>> GetExercisesAsync(string username);
-        Task<ExerciseDTO> GetExerciseByIDAsync(long id);
-        Task<ExerciseDTO> AddExerciseAsync(ExerciseInputModel exerciseInputModel, ApplicationUser user);
-        Task DeleteExerciseAsync(Exercise exercise);
-        Task<ExerciseDTO> UpdateExerciseAsync(Exercise exercise, ExerciseInputModel exerciseInputModel);
-        Task<Exercise> FindExerciseAsync(long id);
+        Task<IEnumerable<ExerciseDTO>> GetExercisesAsync(string username, CancellationToken token);
+        Task<ExerciseDTO> GetExerciseByIDAsync(long id, CancellationToken token);
+        Task<ExerciseDTO> AddExerciseAsync(ExerciseInputModel exerciseInputModel, ApplicationUser user, CancellationToken token);
+        Task DeleteExerciseAsync(Exercise exercise, CancellationToken token);
+        Task<ExerciseDTO> UpdateExerciseAsync(Exercise exercise, ExerciseInputModel exerciseInputModel, CancellationToken token);
+        Task<Exercise> FindExerciseAsync(long id, CancellationToken token);
     }
 }

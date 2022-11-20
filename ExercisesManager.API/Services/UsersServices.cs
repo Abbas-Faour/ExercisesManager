@@ -32,10 +32,10 @@ namespace ExercisesManager.API.Services
             return null;
         }
 
-        public async Task<ApplicationUser> GetUserByName(string username)
+        public async Task<ApplicationUser> GetUserByName(string username, CancellationToken token)
         {
             
-           return await _userManager.Users.Include(x => x.UserExercises).FirstOrDefaultAsync(x => x.UserName.Equals(username));
+           return await _userManager.Users.Include(x => x.UserExercises).FirstOrDefaultAsync(x => x.UserName.Equals(username),token);
         }
 
 

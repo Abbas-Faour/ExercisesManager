@@ -6,6 +6,6 @@ namespace ExercisesManager.API.Services.Interfaces
     public interface IUsersService
     {
         Task<ApplicationUser> IsUserAuthenticated(LoginUserInputModel loginInputModel);
-        Task<ApplicationUser> GetUserByName(string username);
+        Task<ApplicationUser> GetUserByName(string username, CancellationToken token);
     }
 }
