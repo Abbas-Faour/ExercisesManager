@@ -1,14 +1,10 @@
 using System.Reflection;
 using System.Text;
 using ExercisesManager.API.Configurations;
-using ExercisesManager.API.Services;
-using ExercisesManager.API.Services.Interfaces;
+
 using ExercisesManager.Data;
-using ExercisesManager.Data.Entites.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace ExercisesManager.API.DI
@@ -39,47 +35,16 @@ namespace ExercisesManager.API.DI
                             errorCodesToAdd: null);
                     }));
 
-            services.AddIdentity<ApplicationUser, IdentityRole<long>>().
-                AddEntityFrameworkStores<ApplicationDbContext>().
-                AddDefaultTokenProviders();
-
             return services;
         }
 
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IdentityConfig identityConfiguration)
-        {
-            services.AddSingleton(identityConfiguration);
+        // public static IServiceCollection AddServices(this IServiceCollection services)
+        // {
+        //     services.AddScoped<IUsersService, UsersService>();
+        //     services.AddScoped<IExercisesService, ExercisesService>();
 
-            // Add authentication
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = identityConfiguration.IdentityIssuer,
-                    ValidAudience = identityConfiguration.IdentityIssuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(identityConfiguration.IdentitySecret))
-                };
-            });
-
-            return services;
-        }
-
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IExercisesService, ExercisesService>();
-
-            return services;
-        }
+        //     return services;
+        // }
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {

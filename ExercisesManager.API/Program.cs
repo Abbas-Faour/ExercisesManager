@@ -2,6 +2,8 @@ using ExercisesManager.API.Configurations;
 using ExercisesManager.API.DI;
 using ExercisesManager.API.Extensions;
 using ExercisesManager.API.Logging;
+using ExercisesManager.Identity.Config;
+using ExercisesManager.Identity.DI;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
@@ -17,17 +19,22 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwagger();
     builder.Services.AddDatabase(builder.Configuration);
-    builder.Services.AddCustomAuthentication(GetIdentityConfig());
-    builder.Services.AddServices();
+    builder.Services.AddIdentityServices(GetIdentityConfig());
+    // builder.Services.AddServices();
 
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();
 
     IdentityConfig GetIdentityConfig()
     {
+        var host = builder.Configuration["PostgreSQL:host"];
+        var port = builder.Configuration["PostgreSQL:port"];
+        var username = builder.Configuration["PostgreSQL:username"];
+        var password = builder.Configuration["PostgreSQL:password"];
+        var database = builder.Configuration["PostgreSQL:identityDB"];
         var secret = builder.Configuration["JWT:Secret"];
         var issuer = builder.Configuration["JWT:ValidIssuer"];
-        return new IdentityConfig(secret, issuer);
+        return new IdentityConfig(host,port,username,password,database,secret,issuer);
     }
 
     var app = builder.Build();

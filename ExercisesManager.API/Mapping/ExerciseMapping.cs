@@ -1,6 +1,6 @@
 using ExercisesManager.API.DTOs;
 using ExercisesManager.API.InputModels;
-using ExercisesManager.Data.Entites;
+using ExercisesManager.Data.Entities;
 
 namespace ExercisesManager.API.Mapping
 {
@@ -20,7 +20,7 @@ namespace ExercisesManager.API.Mapping
         {
             return new ExerciseDTO
             {
-                ID = exercise.ID,
+                ID = exercise.Id,
                 Name = exercise.Name,
                 Duration = exercise.Duration,
                 Description = exercise.Description
