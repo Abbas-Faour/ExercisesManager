@@ -25,7 +25,7 @@ namespace ExercisesManager.API.Services
 
         public async Task AssignExerciseToUser(long userID, long exerciseID, string username, CancellationToken token)
         {
-            var exercise = await _context.Exercises.Include(x => x.UserExercises).SingleOrDefaultAsync(x => x.Id == exerciseID);
+            var exercise = await _context.Exercises.SingleOrDefaultAsync(x => x.Id == exerciseID);
             exercise.UserExercises.Add(new UserExercise
             {
                 CreatedAt = DateTime.Now,
