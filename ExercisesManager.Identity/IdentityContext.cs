@@ -1,5 +1,5 @@
-using ExercisesManager.Data.Entities;
 using ExercisesManager.Identity.DataSeed;
+using ExercisesManager.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

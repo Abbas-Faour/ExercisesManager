@@ -1,9 +1,9 @@
 using System.Reflection;
 using System.Text;
 using ExercisesManager.API.Configurations;
-
+using ExercisesManager.API.Services;
+using ExercisesManager.API.Services.Interfaces;
 using ExercisesManager.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -38,13 +38,13 @@ namespace ExercisesManager.API.DI
             return services;
         }
 
-        // public static IServiceCollection AddServices(this IServiceCollection services)
-        // {
-        //     services.AddScoped<IUsersService, UsersService>();
-        //     services.AddScoped<IExercisesService, ExercisesService>();
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IExerciseService, ExerciseService>();
 
-        //     return services;
-        // }
+            return services;
+        }
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {

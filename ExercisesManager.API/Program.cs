@@ -20,7 +20,7 @@ try
     builder.Services.AddSwagger();
     builder.Services.AddDatabase(builder.Configuration);
     builder.Services.AddIdentityServices(GetIdentityConfig());
-    // builder.Services.AddServices();
+    builder.Services.AddServices();
 
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();

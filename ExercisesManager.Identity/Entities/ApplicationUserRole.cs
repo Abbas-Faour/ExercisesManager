@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace ExercisesManager.Data.Entities
+namespace ExercisesManager.Identity.Entities
 {
     public class ApplicationUserRole : IdentityUserRole<long>
     {

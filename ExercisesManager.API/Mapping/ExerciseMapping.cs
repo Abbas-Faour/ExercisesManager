@@ -6,13 +6,15 @@ namespace ExercisesManager.API.Mapping
 {
     public static class ExerciseMapping
     {
-        public static Exercise ToEntity(this ExerciseInputModel exerciseInputModel)
+        public static Exercise ToEntity(this ExerciseInputModel exerciseInputModel, string username)
         {
             return new Exercise
             {
                 Name = exerciseInputModel.Name,
                 Duration = exerciseInputModel.Duration,
-                Description = exerciseInputModel.Description
+                Description = exerciseInputModel.Description,
+                CreatedAt = DateTime.Now,
+                CreatedBy = username
             };
         }
 
